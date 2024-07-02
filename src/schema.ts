@@ -1,9 +1,10 @@
 export const typeDefs = `#graphql
 
 type Query {
-    me: User
+    me: ProfileReturnPayload
     users: [User]
     posts: [Post]
+    user(profileId: ID!): ProfileReturnPayload
 }
 
 type Mutation {
@@ -13,6 +14,20 @@ type Mutation {
         password: String!
     ): UserReturn
 
+    addPost(
+      post: postArgument!
+    ) : PostReturnPayload
+
+    updatePost(
+      postId: ID!
+      post: postArgument!
+    ) : PostReturnPayload
+
+    deletePost(
+      postId: ID!
+      
+    ) : PostReturnPayload
+
     signIn(
         name: String!
         password: String!
@@ -20,10 +35,22 @@ type Mutation {
     ): UserReturn
 }
 
+type ProfileReturnPayload {
+  user: User
+  error: String
+}
+
 type UserReturn {
   user: User
   token: String
 }
+
+
+type PostReturnPayload {
+  error: String
+  post: Post
+}
+
   
   type Post {
     id: ID!
@@ -49,5 +76,13 @@ type UserReturn {
     updatedAt: String
     user: User!
     
+  }
+
+ 
+
+
+  input postArgument {
+    title: String
+      content: String
   }
 `;
